@@ -1,9 +1,66 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-body { padding-top: 100px; }
-footer { margin-top: 100px; }
-table, td, th { vertical-align: middle; border: none; }
-th { border-bottom: 1px solid #DDD; }
+$base-color: #AD141E;
+$lightgray: #ddd;
+$darkgray: #aaa;
+$black: #000;
+$white: #fff;
 
+body { 
+  padding-top: 100px; 
+  font-family: Roboto, sans-serif;
+}
+
+table, td, th { 
+  vertical-align: middle; 
+  border: none; 
+}
+th { border-bottom: 1px solid $lightgray; }
+
+.spot {
+  border-radius: 30%;
+  border: solid 1px $darkgray;
+  box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
+  margin: 6px;
+}
+
+.image {
+  margin: 4px;
+}
+
+footer { margin-top: 100px; }
+
+@mixin box-shadow($top, $left, $blur, $size, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $size $color;
+    -moz-box-shadow:inset $top $left $blur $size $color;
+    box-shadow:inset $top $left $blur $size $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $size $color;
+    -moz-box-shadow: $top $left $blur $size $color;
+    box-shadow: $top $left $blur $size $color;
+  }
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+.intro-box {
+  padding: 10px;
+  background: $base-color;
+  color: darken($white, 15%);
+  border: 1px solid darken($base-color, 20%);
+  text-shadow: 0 -1px 0 darken($base-color, 10%);
+  @include box-shadow(0, 1px, 0, lighten($base-color, 20%), inset);
+  @include border-radius(10px);
+}
+
+.edit-img {
+  max-width: 500px;
+}
 .show-image {width: 600px;}

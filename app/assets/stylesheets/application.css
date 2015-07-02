@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+.logo {
+  font-family: 'Sonsie One', sans-serif;
+  font-size: 3em;
+}
+
+.gravatar {
+  border-radius: 50%;
+  width: 40px;
+  box-shadow: 0 0 0 1px rgba(128, 228, 228, 0.51); 
+  margin-right: 8px;
+}
+
+.logins {
+  margin-left: 80px;
+}
