@@ -18,7 +18,7 @@
       document.getElementById('coordinates').style.display = 'block';
 
 
-      $("#geo-wrapper").css({'width':'320px','height':'350px'});
+      $("#map").css({'width':'450px','height':'350px'});
       var map = new GMap2(document.getElementById("geo-wrapper"));
       var center = new GLatLng(loc.coords.latitude, loc.coords.longitude);
       map.setCenter(center, 14);
@@ -31,6 +31,7 @@
     }
 
     success_callback();
+    show_map();
 </script>
 
 <%= form_for(@post, :html => {:multipart => true}, :role => 'form') do |f| %>
@@ -75,6 +76,7 @@
         <%= f.label :location %><br>
         <%= f.text_field :location, class: "form-control post-location", placeholder: "latitude, longitude", rows: 30 %>
       </div>
+      <div id="map">MAP</div>
     </div>
   </div>
   <div class="row">
