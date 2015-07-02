@@ -1,0 +1,88 @@
+<script type="text/javascript">
+    if(geoPosition.init()){  // Geolocation Initialisation
+      geoPosition.getCurrentPosition(success_callback,error_callback,{enableHighAccuracy:false});
+    }else{
+      // You cannot use Geolocation in this device
+    }
+
+    function success_callback(p){
+      var latitude = parseFloat( p.coords.latitude ).toFixed(8);
+      var longitude = parseFloat( p.coords.longitude ).toFixed(8);
+      $(".post-location").val(latitude + ', ' + longitude);
+    }
+
+    function show_map(loc) {
+
+      document.getElementById('latitude').innerHTML = '<span class="information">Latitude:</span>' + latitude;
+      document.getElementById('longitude').innerHTML = '<span class="information">Longitude:</span>' + longitude;   
+      document.getElementById('coordinates').style.display = 'block';
+
+
+      $("#geo-wrapper").css({'width':'320px','height':'350px'});
+      var map = new GMap2(document.getElementById("geo-wrapper"));
+      var center = new GLatLng(loc.coords.latitude, loc.coords.longitude);
+      map.setCenter(center, 14);
+      map.addControl(new GSmallMapControl());
+      map.addControl(new GMapTypeControl());
+      map.addOverlay(new GMarker(center, {draggable: false, title: "You are here (more or less)"}));
+    }
+    function error_callback(p){
+      // p.message : error message
+    }
+
+    success_callback();
+</script>
+
+<%= form_for(@post, :html => {:multipart => true}, :role => 'form') do |f| %>
+  <div class="row">
+    <% if @post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+        <ul>
+        <% @post.errors.full_messages.each do |message| %>
+          <li class="alert alert-warning"><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <%= f.label :title %><br>
+      <%= f.text_field :title, class: "form-control", placeholder: "Plot Title", required: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :caption %><br>
+      <%= f.text_area :caption, class: "form-control", placeholder: "Plot Caption" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <% if @post.picture.present? %>
+          <%= image_tag(@post.picture_url, class: "img-responsive") %>
+        <% else %>
+          <%= f.label :picture %><br>
+          <%= f.file_field :picture %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :location %><br>
+        <%= f.text_field :location, class: "form-control post-location", placeholder: "latitude, longitude", rows: 30 %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="actions">
+        <%= f.submit "Save", class: "btn btn-primary" %>
+        <%= link_to 'Back', posts_path, class: "btn btn-info" %>
+      </div>
+    </div>
+  </div>
+<% end %>
